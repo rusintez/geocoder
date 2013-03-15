@@ -69,7 +69,7 @@ Geocoder.prototype = {
    * @api public
    */
 
-  geocode: function ( loc, cbk, opts ) {
+  geocode: function ( loc, cbk, opts, agent ) {
 
     if ( ! loc ) {
         return cbk( new Error( "Geocoder.geocode requires a location.") );
@@ -77,12 +77,23 @@ Geocoder.prototype = {
 
     var options = Hash.merge({sensor: false, address: loc}, opts || {});
 
-    var params = {
-      host: 'maps.googleapis.com',
-      port: 80,
-      path: '/maps/api/geocode/json?' + querystring.stringify(options),
-      headers: {}
-    };
+    var params;
+    if (agent){
+      params = {
+        host: 'maps.googleapis.com',
+        port: 80,
+        path: '/maps/api/geocode/json?' + querystring.stringify(options),
+        headers: {},
+        agent: agent
+      };
+    } else {
+      params = {
+        host: 'maps.googleapis.com',
+        port: 80,
+        path: '/maps/api/geocode/json?' + querystring.stringify(options),
+        headers: {}
+      };
+    }
 
     return request( params, cbk );
   },

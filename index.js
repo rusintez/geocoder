@@ -10,6 +10,12 @@ var http = require( 'http' );
 var Hash = require('hashish');
 var querystring = require('querystring');
 
+var socksAgent;
+if (global.ks_socks_proxy) {
+  var SocksAgent = require('socksified').SocksAgent;
+  socksAgent = new SocksAgent(global.ks_socks_proxy);
+}
+
 /**
  * Version
  */
@@ -69,7 +75,7 @@ Geocoder.prototype = {
    * @api public
    */
 
-  geocode: function ( loc, cbk, opts, agent ) {
+  geocode: function ( loc, cbk, opts ) {
 
     if ( ! loc ) {
         return cbk( new Error( "Geocoder.geocode requires a location.") );
@@ -78,7 +84,7 @@ Geocoder.prototype = {
     var options = Hash.merge({sensor: false, address: loc}, opts || {});
 
     var params;
-    if (agent){
+    if (socksAgent){
       params = {
         host: 'maps.googleapis.com',
         port: 80,

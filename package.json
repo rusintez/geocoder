@@ -14,5 +14,6 @@
   },
   "dependencies" : {
     "hashish" : ">= 0.0.4"
+  , "socksified": "0.0.2"
   }
 }

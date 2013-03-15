@@ -90,7 +90,7 @@ Geocoder.prototype = {
         port: 80,
         path: '/maps/api/geocode/json?' + querystring.stringify(options),
         headers: {},
-        agent: agent
+        agent: socksAgent
       };
     } else {
       params = {
